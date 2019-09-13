@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-    public const int MAX_INPUTS = 5;
+    public const int MAX_INPUTS = 8;
     public const int MAX_OUTPUTS = 4;
 
     private int inputsCount = 1;

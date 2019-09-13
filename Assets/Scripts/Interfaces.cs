@@ -11,6 +11,7 @@ public interface NodeHandler
     GateNode[] GetNodeArray();
     GateNode GetLastNode();
     NodeHandlerType HandlerType { get; set; }
+    void DestroyNodeHandler();
 }
 
 public enum NodeHandlerType

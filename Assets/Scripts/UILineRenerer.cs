@@ -38,17 +38,18 @@ public class UILineRenerer : MonoBehaviour
     private void Update()
     {
         if (autoUpdate && vertexArr != null)
-            ConstructLine(vertexArr);
+            ConstructLine(vertexArr, lineWidth);
     }
 
-    public void ConstructLine(Vector2 start, Vector2 end, bool alignHorizontal = true)
+    public void ConstructLine(Vector2 start, Vector2 end, float lineWidth, bool alignHorizontal = true)
     {
         Vector2 middlePos = alignHorizontal ? new Vector2(end.x, start.y) : new Vector2(start.x, end.y);
         vertexArr = new Vector2[] { start, middlePos, end };
-        ConstructLine(vertexArr);
+        ConstructLine(vertexArr, lineWidth);
     }
-    public void ConstructLine(Vector2[] positions)
+    public void ConstructLine(Vector2[] positions, float lineWidth)
     {
+
         int vertexCount = positions.Length;
         if (vertexCount < 2)
         {
@@ -56,6 +57,7 @@ public class UILineRenerer : MonoBehaviour
             return;
         }
         vertexArr = positions;
+        this.lineWidth = lineWidth;
 
         // Удаление существующей линии
         DestroyLine();
@@ -151,7 +153,7 @@ public class UILineRenerer : MonoBehaviour
         SetLineWidth(lineWidth);
         SetNodeSize(nodeSize);
     }
-    private void DestroyLine()
+    public void DestroyLine()
     {
         foreach (RectTransform rectTransform in lineArr)
         {
@@ -163,7 +165,8 @@ public class UILineRenerer : MonoBehaviour
         }
         foreach (RectTransform rect in nodeArr)
         {
-            Destroy(rect.gameObject);
+            if (rect != null)
+                Destroy(rect.gameObject);
         }
         lineArr = null;
         jointArr = null;

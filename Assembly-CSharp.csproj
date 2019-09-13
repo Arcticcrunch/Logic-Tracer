@@ -67,9 +67,13 @@
     <Compile Include="Assets\Scripts\GateNode.cs" />
     <Compile Include="Assets\Scripts\Interfaces.cs" />
     <Compile Include="Assets\Scripts\LayoutGenerator.cs" />
+    <Compile Include="Assets\Scripts\LayoutGeneratorDEPRECATED.cs" />
     <Compile Include="Assets\Scripts\Settings.cs" />
+    <Compile Include="Assets\Scripts\TruthtableCheckbox.cs" />
     <Compile Include="Assets\Scripts\TruthtableGenerator.cs" />
     <Compile Include="Assets\Scripts\UILineRenerer.cs" />
+    <Compile Include="Assets\Scripts\UIPanelMover.cs" />
+    <Compile Include="Assets\Scripts\UIZoomer.cs" />
     <Compile Include="Assets\Scripts\Utilitiy.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/GitHub/Logic Tracer/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

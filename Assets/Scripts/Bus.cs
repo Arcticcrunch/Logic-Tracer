@@ -47,4 +47,11 @@ public class Bus : MonoBehaviour, NodeHandler
         //return new Vector2(transform.position.x, -(connectedToBus * verticalBusDistance));
         return new Vector2(rect.anchoredPosition.x, -(connectedToBus * verticalBusDistance) + rect.anchoredPosition.y);
     }
+
+    public void DestroyNodeHandler()
+    {
+        Destroy(lineRenerer.gameObject);
+        Destroy(this.gameObject);
+        connectedToBus = 0;
+    }
 }

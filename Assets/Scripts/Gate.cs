@@ -56,4 +56,9 @@ public class Gate : MonoBehaviour, NodeHandler
     {
         throw new System.NotImplementedException();
     }
+
+    public void DestroyNodeHandler()
+    {
+        Destroy(this.gameObject);
+    }
 }

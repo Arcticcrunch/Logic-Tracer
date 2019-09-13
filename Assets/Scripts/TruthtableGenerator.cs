@@ -20,8 +20,6 @@ public class TruthtableGenerator : MonoBehaviour
     #region Prefabs
     public RectTransform checkbox;
     public RectTransform emptyCell;
-    //public RectTransform cellOne;
-    //public RectTransform cellZero;
     #endregion
 
     public void Start()
@@ -61,7 +59,7 @@ public class TruthtableGenerator : MonoBehaviour
         }
         // Изменение размера родительской панели
         contentPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, (originOffset.x * 2) + (matrixWidth * cellSize) + cellSize);
-        contentPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (originOffset.y * 2) + (matrixHeight * cellSize) + cellSize);
+        contentPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (originOffset.y * 2) + (matrixHeight * cellSize) + (cellSize * 4));
         
         for (int y = 0; y < matrixHeight; y++)
         {
@@ -89,6 +87,9 @@ public class TruthtableGenerator : MonoBehaviour
             rectTrans.localPosition = originOffset + new Vector2(0, -i * cellSize);
             rectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cellSize);
             rectTrans.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, cellSize);
+            TruthtableCheckbox cB = go.GetComponent<TruthtableCheckbox>();
+            cB.index = i;
+            cB.truthtableGenerator = this;
         }
     }
 

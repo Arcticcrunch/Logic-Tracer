@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class GateNode : MonoBehaviour
 {
+    //private RectTransform rect;
     public Gate gate;
 
     private void Awake()
     {
         if (gate == null)
-        {
             gate = GetComponentInParent<Gate>();
-        }
+        //rect = GetComponent<RectTransform>();
     }
-    public Vector2 GetPosInParentCoordinateSystem()
+    public Vector2 GetPosInParentCanvas()
     {
         return transform.localPosition;
     }
