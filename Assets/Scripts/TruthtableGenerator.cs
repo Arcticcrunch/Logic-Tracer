@@ -15,17 +15,13 @@ public class TruthtableGenerator : MonoBehaviour
 
     public Settings settings;
     public RectTransform contentPanel;
-    public List<GameObject> cellsList;
+    public List<GameObject> cellsList = new List<GameObject>();
 
     #region Prefabs
     public RectTransform checkbox;
     public RectTransform emptyCell;
     #endregion
-
-    public void Start()
-    {
-        cellsList = new List<GameObject>();
-    }
+    
     public void GenerateTruthtable()
     {
         matrixWidth = settings.GetInputsCount;

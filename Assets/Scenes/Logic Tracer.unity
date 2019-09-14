@@ -709,10 +709,10 @@ RectTransform:
   m_Father: {fileID: 1634207079}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00005943799, y: -0.000015585525}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -0.00005943799, y: 0.00006560352}
+  m_SizeDelta: {x: 1159, y: 614}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &331638617
 MonoBehaviour:
@@ -1646,7 +1646,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 535781391}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9998998
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3309,7 +3309,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.000030188141, y: 26.959736}
+  m_AnchoredPosition: {x: 0.000030188141, y: 2.3282647}
   m_SizeDelta: {x: 303, y: 444}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1377629330
@@ -3655,10 +3655,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1515779905}
-  - component: {fileID: 1515779906}
+  - component: {fileID: 1515779908}
   - component: {fileID: 1515779907}
   - component: {fileID: 1515779909}
-  - component: {fileID: 1515779908}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -3682,42 +3681,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.00006012916, y: 0}
+  m_AnchoredPosition: {x: -0.00000087434813, y: -0.00031742497}
   m_SizeDelta: {x: 1200, y: 614}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &1515779906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1515779904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed7ab0ca4cc9bce48b55aea6858741d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charCellSize: {x: 50, y: 50}
-  gateSize: {x: 90, y: 90}
-  originOffset: {x: 290, y: -70}
-  gateGridOffset: {x: 0, y: 0}
-  additionalBusOffset: {x: 40, y: 0}
-  lineWidth: 7
-  inputBusVerticalDistance: 20
-  inputBusSpacing: 50
-  invertedBusOffsetMul: 0.8
-  settings: {fileID: 1032725044}
-  truthtableGenerator: {fileID: 867173465}
-  contentPanel: {fileID: 1515779905}
-  andGate: {fileID: 2877092879001439769, guid: 42140cc502b3b1443ad506bdb3014607, type: 3}
-  notGate: {fileID: 6472216952206555106, guid: d5a463fda713acc45ad49c37118c9833, type: 3}
-  orGate: {fileID: 6253141823470384246, guid: 666b1012d38523d4cbc8f6ca962ca7be, type: 3}
-  node: {fileID: 6587579359954868827, guid: e95243b1ee5f1e84b97b9831df945316, type: 3}
-  connectionLine: {fileID: 9149806187403207552, guid: c772df2521ae22745974ec83161556eb,
-    type: 3}
-  emptyCell: {fileID: 2543629060828476729, guid: f267902596d1c274d89582fd229d018d,
-    type: 3}
-  bus: {fileID: 6714261018696404624, guid: a5127309e290c9a40aba5ae0f147b6da, type: 3}
 --- !u!114 &1515779907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3731,11 +3697,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollView: {fileID: 726320194}
-  parentPanel: {fileID: 331638616}
-  targetPanel: {fileID: 1515779905}
+  parentPanel: {fileID: 0}
+  targetPanel: {fileID: 331638616}
   slider: {fileID: 941850028}
-  maxZoom: 2
-  minZoom: 0.2
+  maxZoom: 1.7
+  minZoom: 0.1
 --- !u!114 &1515779908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3758,7 +3724,9 @@ MonoBehaviour:
   gateGridXOffset: 300
   settings: {fileID: 1032725044}
   truthtableGenerator: {fileID: 867173465}
+  panelToResize: {fileID: 331638616}
   contentPanel: {fileID: 1515779905}
+  uIZoomer: {fileID: 0}
   andGate: {fileID: 2877092879001439769, guid: 42140cc502b3b1443ad506bdb3014607, type: 3}
   notGate: {fileID: 6472216952206555106, guid: d5a463fda713acc45ad49c37118c9833, type: 3}
   orGate: {fileID: 6253141823470384246, guid: 666b1012d38523d4cbc8f6ca962ca7be, type: 3}
@@ -5087,7 +5055,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2030597083}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.83482504
+  m_Size: 0.6533034
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

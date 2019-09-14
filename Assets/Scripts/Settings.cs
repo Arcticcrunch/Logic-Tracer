@@ -81,11 +81,7 @@ public class Settings : MonoBehaviour
     {
         formulaType = (FormulaType)formulaTypeDropdown.value;
     }
-
-    //public void UpdateGrid()
-    //{
-    //
-    //}
+    
     public void Export()
     {
 

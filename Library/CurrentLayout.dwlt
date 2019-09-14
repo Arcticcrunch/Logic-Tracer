@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 847, y: 498}
   m_MaxSize: {x: 28012, y: 14048}
   vertical: 0
-  controlID: 31
+  controlID: 134
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_MinSize: {x: 570, y: 498}
   m_MaxSize: {x: 24010, y: 14048}
   vertical: 1
-  controlID: 146
+  controlID: 181
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 224}
   m_MaxSize: {x: 8006, y: 4024}
   vertical: 0
-  controlID: 147
+  controlID: 182
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_MinSize: {x: 570, y: 274}
   m_MaxSize: {x: 24010, y: 10024}
   vertical: 0
-  controlID: 167
+  controlID: 94
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -386,19 +386,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scenes
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Scenes
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\GitHub\Logic Tracer
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 820b0000
-    m_LastClickedID: 2946
+    m_SelectedIDs: c20a0000
+    m_LastClickedID: 2754
     m_ExpandedIDs: 0000000098090000b40b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -454,7 +454,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -479,7 +479,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 33}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 16
   m_DirectoriesAreaWidth: 203
 --- !u!114 &16
@@ -591,9 +591,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: a6060000
-      m_LastClickedID: 0
-      m_ExpandedIDs: aa7fffff80fbffffd4fbffff600c00006e0c0000a00c0000f60c00003e0d0000600d00008c0d0000
+      m_SelectedIDs: 6e0c0000
+      m_LastClickedID: 3182
+      m_ExpandedIDs: d4fbffff600c00006e0c0000a00c0000600d00008c0d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -648,9 +648,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.55795074, y: 0.98447233, z: 91.4043}
+    m_Target: {x: 0.171982, y: 0.9660928, z: 91.4043}
     speed: 2
-    m_Value: {x: 0.55795074, y: 0.98447233, z: 91.4043}
+    m_Value: {x: 0.171982, y: 0.9660928, z: 91.4043}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -802,7 +802,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000e6f1010000000000fc090000b00b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

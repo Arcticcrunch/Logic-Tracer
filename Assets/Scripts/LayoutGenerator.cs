@@ -25,11 +25,15 @@ public class LayoutGenerator : MonoBehaviour
     // Сервисные переменные
     private int totalBusCount = 0;
     private float busYPos = 0;
+    private float bottomBorderPos = 0;
+    private float rightBorderPos = 0;
 
     #region Reference
     public Settings settings;
     public TruthtableGenerator truthtableGenerator;
+    public RectTransform panelToResize;
     public RectTransform contentPanel;
+    public UIZoomer uIZoomer;
     #endregion
 
     #region Prefabs
@@ -72,8 +76,10 @@ public class LayoutGenerator : MonoBehaviour
 
     private void CreateDisjunctionLayout()
     {
+        // Создание шин
         CreateBuses();
         
+        // Создание сетки гейтов
         bool[] truthTable = truthtableGenerator.GetTruthColumn();
         bool[,] matrix = truthtableGenerator.GetMatrix();
         List<int> truthIndexes = new List<int>();
@@ -123,8 +129,14 @@ public class LayoutGenerator : MonoBehaviour
         gateGroups.Add(orGroup);
 
 
+        // Создание индексов шин
         CreateBusLabels();
+        // Отрисовка вспомогательных элементов
         CreatePostOutline();
+        // Отрисовка графики шин
+        CreateBusGFX();
+        // Подгонка размера полотна
+        ResizeCanvas(rightBorderPos, bottomBorderPos);
     }
     private void CreateConjunctionLayout()
     {
@@ -162,9 +174,9 @@ public class LayoutGenerator : MonoBehaviour
 
         rect.anchoredPosition = pos;
         Bus b = go.GetComponent<Bus>();
-        b.lineRenerer.showNodes = false;
+        //b.lineRenerer.showNodes = false;
         // TODO: Заменить второй вектор для коректного расчёта длины шины
-        b.lineRenerer.ConstructLine(Vector2.zero, new Vector2(0, -1200), busWidth);
+        //b.lineRenerer.ConstructLine(Vector2.zero, new Vector2(0, -1200), busWidth);
         buses.Add(b);
     }
     private void CreateBusLabels()
@@ -182,6 +194,11 @@ public class LayoutGenerator : MonoBehaviour
         Vector2 outputLabelPos = gateGroups[gateGroups.Count - 1].GetLastNodeOutput().GetPosInParentCoordinateSystem(contentPanel);
         outputLabelPos += new Vector2(labelCellSize.x * 3 + (labelCellSize.x * 0.5f), labelCellSize.y + labelCellSize.y * 0.5f);
         CreateLabel("Y", labelCellSize.x, labelCellSize.y, outputLabelPos, contentPanel);
+
+        // Расчёт границ полотна
+        rightBorderPos = outputLabelPos.x;
+        bottomBorderPos = Bus.GetBottomBusPosition();
+
     }
     private RectTransform CreateLabel(string text, float width, float height, Vector2 pos, Transform parent)
     {
@@ -199,9 +216,13 @@ public class LayoutGenerator : MonoBehaviour
     }
     private void CreatePostOutline()
     {
+        // Отрисовка выходной линии схемы 
         Vector2 outputLinelStartPos = gateGroups[gateGroups.Count - 1].GetLastNodeOutput().GetPosInParentCoordinateSystem(contentPanel);
         Vector2 outputLinelEndPos = outputLinelStartPos + new Vector2(labelCellSize.x * 4, 0);
         CreateLine(outputLinelStartPos, outputLinelEndPos, busWidth, contentPanel);
+
+        // Отрисовка инвертеров шин
+
     }
     private void CreateLine(Vector2 startPos, Vector2 endPos, float lineWidth, Transform parent)
     {
@@ -215,6 +236,22 @@ public class LayoutGenerator : MonoBehaviour
         UILineRenerer lR = go.GetComponent<UILineRenerer>();
         lR.ConstructLine(startPos, endPos, lineWidth);
         linesList.Add(lR);
+    }
+    private void CreateBusGFX()
+    {
+        foreach (Bus item in buses)
+        {
+            item.lineRenerer.showNodes = false;
+            item.lineRenerer.ConstructLine(Vector2.zero, new Vector2(0, bottomBorderPos), busWidth);
+        }
+    }
+    private void ResizeCanvas(float width, float height)
+    {
+        panelToResize.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width + originOffset.x);
+        panelToResize.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, -height - (originOffset.y * 3)
+            + (settings.GetInputsCount * (gateSize.y + busNodeDistance)));
+        if (uIZoomer != null)
+            uIZoomer.UpdateZoom();
     }
 
     // Удаление всех объектов и очистка всех списков

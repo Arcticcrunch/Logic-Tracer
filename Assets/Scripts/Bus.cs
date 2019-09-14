@@ -33,6 +33,14 @@ public class Bus : MonoBehaviour, NodeHandler
     {
         throw new System.NotImplementedException();
     }
+    public static float GetLastNodeYPosition()
+    {
+        return -connectedToBus * verticalBusDistance;
+    }
+    public static float GetBottomBusPosition()
+    {
+        return -(connectedToBus + 1) * verticalBusDistance;
+    }
 
     public Vector2 AllocateNewPos(Transform relativeTransform)
     {
