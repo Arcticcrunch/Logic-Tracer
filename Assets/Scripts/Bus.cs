@@ -62,4 +62,9 @@ public class Bus : MonoBehaviour, NodeHandler
         Destroy(this.gameObject);
         connectedToBus = 0;
     }
+
+    public Vector2 GetPosition()
+    {
+        return rect.anchoredPosition;
+    }
 }

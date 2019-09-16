@@ -12,6 +12,7 @@ public interface NodeHandler
     GateNode GetLastNode();
     NodeHandlerType HandlerType { get; set; }
     void DestroyNodeHandler();
+    Vector2 GetPosition();
 }
 
 public enum NodeHandlerType

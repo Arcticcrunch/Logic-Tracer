@@ -66,12 +66,16 @@ public class Settings : MonoBehaviour
         int value = Convert.ToInt32(inputCountField.text);
         inputsCount = Mathf.Clamp(value, 1, MAX_INPUTS);
         inputCountField.text = inputsCount.ToString();
+        if (autoUpdate)
+            generator.GenerateTruthtable();
     }
     public void UpdateOutputCountFunc()
     {
         int value = Convert.ToInt32(outputCountField.text);
         outputsCount = Mathf.Clamp(value, 1, MAX_OUTPUTS);
         outputCountField.text = outputsCount.ToString();
+        if (autoUpdate)
+            generator.GenerateTruthtable();
     }
     public void UpdateAutoUpdFunc()
     {
@@ -80,11 +84,19 @@ public class Settings : MonoBehaviour
     public void UpdateFormulaTypeFunc()
     {
         formulaType = (FormulaType)formulaTypeDropdown.value;
+        if (autoUpdate)
+            generator.GenerateTruthtable();
     }
     
     public void Export()
     {
 
+    }
+
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }
 

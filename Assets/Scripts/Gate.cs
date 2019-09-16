@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour, NodeHandler
 {
+    private RectTransform rect;
     private Vector2 position = Vector2.zero;
 
     public string logicOperators;
     public GateNode[] nodeList;
 
+    private void Awake()
+    {
+        rect = GetComponent<RectTransform>();
+    }
+
     public NodeHandlerType HandlerType { get { return NodeHandlerType.Gate; } set { } }
 
     public Vector2 GetPosition()
     {
-        return position;
+        return rect.anchoredPosition;
     }
     public void SetPosition(Vector2 pos)
     {

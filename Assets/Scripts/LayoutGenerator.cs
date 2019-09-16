@@ -78,7 +78,6 @@ public class LayoutGenerator : MonoBehaviour
     {
         // Создание шин
         CreateBuses();
-        
         // Создание сетки гейтов
         bool[] truthTable = truthtableGenerator.GetTruthColumn();
         bool[,] matrix = truthtableGenerator.GetMatrix();
@@ -88,6 +87,11 @@ public class LayoutGenerator : MonoBehaviour
             if (truthTable[i])
                 truthIndexes.Add(i);
         }
+
+        // Создание индексов шин
+        CreateBusLabels();
+
+
         if (truthIndexes.Count == 0)
             return;
         
@@ -100,6 +104,7 @@ public class LayoutGenerator : MonoBehaviour
                 busesOutputs[x, y] = isCurrentRankTrue ? buses[y] : buses[y + settings.GetInputsCount];
             }
         }
+        
         List<GateGroup> firstLayer = new List<GateGroup>();
         Vector2 gateGridXPosStart = new Vector2(busXPosPositions[busXPosPositions.Length - 1] + gateGridXOffset, 0);
         Vector2 mostDistantNodePos = Vector2.zero;
@@ -129,8 +134,6 @@ public class LayoutGenerator : MonoBehaviour
         gateGroups.Add(orGroup);
 
 
-        // Создание индексов шин
-        CreateBusLabels();
         // Отрисовка вспомогательных элементов
         CreatePostOutline();
         // Отрисовка графики шин
@@ -190,15 +193,6 @@ public class LayoutGenerator : MonoBehaviour
             Vector2 newPos = new Vector2(busXPosPositions[i] - (labelCellSize.x * 0.5f), originOffset.y + labelCellSize.y);
             CreateLabel(str, labelCellSize.x, labelCellSize.y, newPos, contentPanel);
         }
-
-        Vector2 outputLabelPos = gateGroups[gateGroups.Count - 1].GetLastNodeOutput().GetPosInParentCoordinateSystem(contentPanel);
-        outputLabelPos += new Vector2(labelCellSize.x * 3 + (labelCellSize.x * 0.5f), labelCellSize.y + labelCellSize.y * 0.5f);
-        CreateLabel("Y", labelCellSize.x, labelCellSize.y, outputLabelPos, contentPanel);
-
-        // Расчёт границ полотна
-        rightBorderPos = outputLabelPos.x;
-        bottomBorderPos = Bus.GetBottomBusPosition();
-
     }
     private RectTransform CreateLabel(string text, float width, float height, Vector2 pos, Transform parent)
     {
@@ -221,10 +215,48 @@ public class LayoutGenerator : MonoBehaviour
         Vector2 outputLinelEndPos = outputLinelStartPos + new Vector2(labelCellSize.x * 4, 0);
         CreateLine(outputLinelStartPos, outputLinelEndPos, busWidth, contentPanel);
 
+        // Отрисовка выходного лейбла схемы
+        Vector2 outputLabelPos = gateGroups[gateGroups.Count - 1].GetLastNodeOutput().GetPosInParentCoordinateSystem(contentPanel);
+        outputLabelPos += new Vector2(labelCellSize.x * 3 + (labelCellSize.x * 0.5f), labelCellSize.y + labelCellSize.y * 0.5f);
+        CreateLabel("Y", labelCellSize.x, labelCellSize.y, outputLabelPos, contentPanel);
+
+        // Расчёт границ полотна
+        rightBorderPos = outputLabelPos.x;
+        bottomBorderPos = Bus.GetBottomBusPosition();
+
         // Отрисовка инвертеров шин
+        // TODO: вычисление позиции Х можно упростить (взяв settings.GetInputsCount и из него получить позицию крайней шины)
+
+        Vector2 posLastDirectBus = buses[(buses.Count / 2) - 1].GetPosition();
+        Vector2 posFirsInvertedBus = (buses[buses.Count / 2].GetPosition());
+        float invXPos = (posFirsInvertedBus - posLastDirectBus).x * 0.5f + posLastDirectBus.x;
+        float invYPosOrigin = posLastDirectBus.y + gateSize.y * 0.5f;
+        List<Gate> tempGateList = new List<Gate>();
+        for (int i = 0; i < settings.GetInputsCount; i++)
+        {
+            Gate g = CreateGate(notGate.gameObject, new Vector2(invXPos, invYPosOrigin
+                + ((gateSize.x + busNodeDistance) * i)), gateSize, contentPanel);
+            tempGateList.Add(g);
+        }
+
+        // Отрисовка линий инверторов
+        for (int i = 0; i < tempGateList.Count; i++)
+        {
+            Vector2 startPos = tempGateList[i].GetLastNode().GetPosInParentCoordinateSystem(contentPanel);
+            Vector2 endPos = buses[i + settings.GetInputsCount].GetPosition();
+            CreateLine(startPos, endPos, busWidth, contentPanel, false);
+
+            startPos = buses[i].GetPosition();
+            endPos = new Vector2(startPos.x, originOffset.y + (-10));
+            CreateLine(startPos, endPos, busWidth, contentPanel, false);
+
+            startPos = tempGateList[i].GetNodePosition(0, contentPanel);
+            endPos = new Vector2(buses[i].GetPosition().x, startPos.y);
+            CreateLine(startPos, endPos, busWidth, contentPanel, true);
+        }
 
     }
-    private void CreateLine(Vector2 startPos, Vector2 endPos, float lineWidth, Transform parent)
+    private void CreateLine(Vector2 startPos, Vector2 endPos, float lineWidth, Transform parent, bool showNodes = false)
     {
         GameObject go = Instantiate(connectionLine);
         go.transform.SetParent(parent);
@@ -234,15 +266,32 @@ public class LayoutGenerator : MonoBehaviour
         rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
         rect.anchoredPosition = startPos;
         UILineRenerer lR = go.GetComponent<UILineRenerer>();
+        lR.showNodes = showNodes;
         lR.ConstructLine(startPos, endPos, lineWidth);
         linesList.Add(lR);
+    }
+    private Gate CreateGate(GameObject gate, Vector2 position, Vector2 size, Transform parent)
+    {
+        GameObject go = Instantiate(gate);
+        go.transform.SetParent(parent);
+        go.transform.localScale = Vector3.one;
+        RectTransform rect = go.GetComponent<RectTransform>();
+        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, 0);
+        rect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0, 0);
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, size.y);
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, size.x);
+        rect.anchoredPosition = position;
+        Gate g = go.GetComponent<Gate>();
+        gatesList.Add(g);
+        return g;
     }
     private void CreateBusGFX()
     {
         foreach (Bus item in buses)
         {
             item.lineRenerer.showNodes = false;
-            item.lineRenerer.ConstructLine(Vector2.zero, new Vector2(0, bottomBorderPos), busWidth);
+            float y = Bus.connectedToBus == 0 ? -contentPanel.rect.height / 2 : bottomBorderPos;
+            item.lineRenerer.ConstructLine(Vector2.zero, new Vector2(0, y), busWidth);
         }
     }
     private void ResizeCanvas(float width, float height)
