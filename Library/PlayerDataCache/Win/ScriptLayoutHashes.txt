@@ -1,6 +1,6 @@
 Win
 PlayerPath?
-C:/GitHub/Logic Tracer/BUILDS/0.1.2 Win/Logic Tracer.exe
+C:/GitHub/Logic Tracer/BUILDS/0.2 Win/Logic Tracer.exe
 SceneListBegin?
 Assets/Scenes/Logic Tracer.unity
 SceneListEnd?

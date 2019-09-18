@@ -87,7 +87,6 @@ public class LayoutGenerator : MonoBehaviour
             if (truthTable[i])
                 truthIndexes.Add(i);
         }
-
         // Создание индексов шин
         CreateBusLabels();
 
@@ -143,8 +142,73 @@ public class LayoutGenerator : MonoBehaviour
     }
     private void CreateConjunctionLayout()
     {
+        // Создание шин
         CreateBuses();
+        // Создание сетки гейтов
+        bool[] truthTable = truthtableGenerator.GetTruthColumn();
+        bool[,] matrix = truthtableGenerator.GetMatrix();
+        List<int> truthIndexes = new List<int>();
+        for (int i = 0; i < truthTable.Length; i++)
+        {
+            if (truthTable[i] == false)
+                truthIndexes.Add(i);
+        }
+
+        // Создание индексов шин
         CreateBusLabels();
+
+
+        if (truthIndexes.Count == 0)
+            return;
+
+        NodeHandler[,] busesOutputs = new NodeHandler[truthIndexes.Count, settings.GetInputsCount];
+        for (int x = 0; x < truthIndexes.Count; x++)
+        {
+            for (int y = 0; y < settings.GetInputsCount; y++)
+            {
+                bool isCurrentRankTrue = matrix[y, truthIndexes[x]];
+                busesOutputs[x, y] = isCurrentRankTrue ? buses[y + settings.GetInputsCount] : buses[y];
+            }
+        }
+
+        List<GateGroup> firstLayer = new List<GateGroup>();
+        Vector2 gateGridXPosStart = new Vector2(busXPosPositions[busXPosPositions.Length - 1] + gateGridXOffset, 0);
+        Vector2 mostDistantNodePos = Vector2.zero;
+        for (int i = 0; i < busesOutputs.GetLength(0); i++)
+        {
+            GateGroup gg = new GateGroup(orGate.GetComponent<Gate>(), connectionLine.GetComponent<UILineRenerer>(), gateSpacing);
+            List<NodeHandler> inputs = new List<NodeHandler>();
+            for (int z = 0; z < busesOutputs.GetLength(1); z++)
+            {
+                inputs.Add(busesOutputs[i, z]);
+            }
+            gg.ConstructGateGroup(inputs, gateGridXPosStart, contentPanel, busWidth);
+            Vector2 pos = gg.GetLastNodeOutput().GetPosInParentCoordinateSystem(contentPanel);
+            if (pos.x > mostDistantNodePos.x)
+                mostDistantNodePos = pos;
+            firstLayer.Add(gg);
+            gateGroups.Add(gg);
+        }
+
+        if (firstLayer.Count > 1)
+        {
+            GateGroup andGroup = new GateGroup(andGate.GetComponent<Gate>(), connectionLine.GetComponent<UILineRenerer>(), gateSpacing);
+            List<NodeHandler> layerOne = new List<NodeHandler>();
+            for (int z = 0; z < firstLayer.Count; z++)
+            {
+                layerOne.Add(firstLayer[z].GetLastGate());
+            }
+            andGroup.ConstructGateGroup(layerOne, mostDistantNodePos + new Vector2(gateSpacing, 0), contentPanel, busWidth);
+            gateGroups.Add(andGroup);
+        }
+
+
+        // Отрисовка вспомогательных элементов
+        CreatePostOutline();
+        // Отрисовка графики шин
+        CreateBusGFX();
+        // Подгонка размера полотна
+        ResizeCanvas(rightBorderPos, bottomBorderPos);
     }
 
     private void CreateBuses()
