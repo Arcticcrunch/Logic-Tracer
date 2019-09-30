@@ -157,7 +157,6 @@ public class LayoutGenerator : MonoBehaviour
         // Создание индексов шин
         CreateBusLabels();
 
-
         if (truthIndexes.Count == 0)
             return;
 

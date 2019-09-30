@@ -540,6 +540,7 @@ namespace Utility
     {
         public const float PI = 3.14159265359f;
         public const float E = 2.71828182846f;
+
         public static int Sign(float value)
         {
             if (value >= 0)
@@ -844,6 +845,11 @@ namespace Utility
             if (value >= lowerRange && value < higherRange)
                 return true;
             else return false;
+        }
+        public static float SmoothStep(float a, float b, float value)
+        {
+            value = Clamp((float)(value - a) / (b - a), 0, 1);
+            return value * value * (3 - 2 * value);
         }
         public static int ClosesHigherPowerOfTwo(int value)
         {
